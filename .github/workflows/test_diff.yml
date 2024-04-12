@@ -31,21 +31,11 @@ jobs:
       - name: get name
         run: echo "${{ github.event.pusher.name }} ${{ github.event.head_commit.url }} ${{ github.event_name }} " 
       
-      - name: get-diff0
-        uses: gh640/command-result-action@v1
-        with:
-          command: git diff -U0 HEAD~
-        id: get-diff0
-
-      - name: get-diff1
-        uses: gh640/command-result-action@v1
-        with:
-          command: git diff -U0 HEAD~ -- 
-        id: get-diff1
-
-      - name: get-diff2
-        run: echo "diff=git diff -U0 HEAD~ -- | grep '^+' | grep -Ev '^\+\+\+ b/' | sed 's/^+//'" >> $GITHUB_OUTPUT
-        id: get-diff2
+      - name: get-diff
+        run: |
+          DIFF=`git diff -U0 HEAD~ -- | grep '^+' | grep -Ev '^\+\+\+ b/' | sed 's/^+//'"`
+          echo "diff=${DIFF}" >> $GITHUB_OUTPUT
+        id: get-diff
 
       - name: cat
         run: cat $GITHUB_EVENT_PATH
@@ -60,9 +50,7 @@ jobs:
                 {
                   "author": "${{ github.event.pusher.name }}",
                   "commit": "${{ github.event.head_commit.url }}",
-                  "diff0": "${{ steps.get-diff0.outputs.stdout }}"
-                  "diff1": "${{ steps.get-diff1.outputs.stdout }}"
-                  "diff2": "${{ steps.get-diff2.outputs.diff }}"
+                  "diff": "${{ steps.get-diff.outputs.diff }}"
                 }
               ]
             }
