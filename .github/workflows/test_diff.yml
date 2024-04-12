@@ -46,9 +46,9 @@ jobs:
               "text": "yaml updated",
               "blocks": [
                 {
-                  "author": ${{ github.event.pusher.name }},
-                  "commit": ${{ github.event.head_commit.url }},
-                  "diff": ${{ steps.get-diff.outputs.stdout }}
+                  "author": "${{ github.event.pusher.name }}",
+                  "commit": "${{ github.event.head_commit.url }}",
+                  "diff": "${{ steps.get-diff.outputs.stdout }}"
                 }
               ]
             }
