@@ -33,13 +33,8 @@ jobs:
       - name: get-diff
         uses: gh640/command-result-action@v1
         with:
-          command: git diff -U0 HEAD~
+          command: git diff -U0 HEAD~ -- | grep '^+' | grep -Ev '^\+\+\+ b/' | sed 's/^+//'
         id: get-diff
-      - name: get-change
-        uses: gh640/command-result-action@v1
-        with:
-          command: echo ${{ steps.get-diff.outputs.stdout }} | grep '^+' | grep -Ev '^\+\+\+ b/' | sed 's/^+//'
-        id: get-change
       - name: cat
         run: cat $GITHUB_EVENT_PATH
       - name: slack-send
@@ -53,7 +48,7 @@ jobs:
                 {
                   "author": "${{ github.event.pusher.name }}",
                   "commit": "${{ github.event.head_commit.url }}",
-                  "diff": "${{ steps.get-change.outputs.stdout }}"
+                  "diff": "${{ steps.get-diff.outputs.stdout }}"
                 }
               ]
             }
