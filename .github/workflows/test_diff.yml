@@ -33,7 +33,7 @@ jobs:
       - name: get-diff
         uses: gh640/command-result-action@v1
         with:
-          command: git diff -U0　HEAD~ | grep '^+' | grep -Ev '^\+\+\+ b/' | sed 's/^+//'
+          command: git diff -U0 HEAD~ | grep '^+' | grep -Ev '^\+\+\+ b/' | sed 's/^+//'
         id: get-diff
       - name: cat
         run: cat $GITHUB_EVENT_PATH
