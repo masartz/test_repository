@@ -38,7 +38,7 @@ jobs:
       - name: get-change
         uses: gh640/command-result-action@v1
         with:
-          command: cat ${{ steps.get-diff.outputs.stdout }} | grep '^+' | grep -Ev '^\+\+\+ b/' | sed 's/^+//'
+          command: echo ${{ steps.get-diff.outputs.stdout }} | grep '^+' | grep -Ev '^\+\+\+ b/' | sed 's/^+//'
         id: get-change
       - name: cat
         run: cat $GITHUB_EVENT_PATH
