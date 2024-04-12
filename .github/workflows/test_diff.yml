@@ -26,7 +26,7 @@ jobs:
         run: echo Hello, world!
 
       - name: get name
-        run: echo ${{ github.event.push.pusher.name }}
+        run: echo "${{ github.event.push.pusher.name }} ${{ github.event.push.head_commit.url }} ${{ github.event.push.repository }} " 
       - name: get diff
         run: echo `git diff -U0 HEAD~`
         
