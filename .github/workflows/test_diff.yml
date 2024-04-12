@@ -34,7 +34,7 @@ jobs:
       - name: get-diff
         run: |
           DIFF=$(git diff -U0 HEAD~ -- | grep '^+' | grep -Ev '^\+\+\+ b/' | sed 's/^+//'")
-          echo "diff=${DIFF}" >> $GITHUB_OUTPUT
+          echo "diff=$DIFF" >> $GITHUB_OUTPUT
         id: get-diff
 
       - name: cat
