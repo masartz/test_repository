@@ -31,7 +31,10 @@ jobs:
       - name: get name
         run: echo "${{ github.event.pusher.name }} ${{ github.event.head_commit.url }} ${{ github.event_name }} " 
       - name: get-diff
-        run: echo "diff=`git diff -U0 HEAD~`" >> $GITHUB_OUTPUT
+        uses: gh640/command-result-action@v1
+        with:
+          command: git diff -U0 HEAD~
+        id: get-diff
       - name: cat
         run: cat $GITHUB_EVENT_PATH
       - name: slack-send
@@ -45,7 +48,7 @@ jobs:
                 {
                   "author": ${{ github.event.pusher.name }},
                   "commit": ${{ github.event.head_commit.url }},
-                  "diff": ${{ steps.get-diff.outputs.diff }}
+                  "diff": ${{ steps.get-diff.outputs.stdout }}
                 }
               ]
             }
