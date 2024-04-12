@@ -19,14 +19,17 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
+      - uses: actions/checkout@v4
+        name: checkout "${{ github.head_ref }}"
+        with:
+          fetch-depth: 1
+          ref: ${{ github.head_ref}}
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
 
       - name: get name
-        run: echo "${{ github.event.push.pusher.name }} ${{ github.event.push.head_commit.url }} ${{ github.event.push.repository }} " 
+        run: echo "${{ github.event.push.pusher.name }} ${{ github.event.push.head_commit.url }} ${{ github.event_name }} " 
       - name: get diff
         run: echo `git diff -U0 HEAD~`
         
