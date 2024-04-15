@@ -50,7 +50,6 @@ jobs:
                 {
                   "author": "${{ github.event.pusher.name }}",
                   "commit": "${{ github.event.head_commit.url }}",
-                  # "diff": "${{ steps.get-diff.outputs.diff }}"
                 }
               ]
             }
