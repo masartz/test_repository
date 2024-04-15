@@ -52,15 +52,15 @@ jobs:
                   "text": {
                     "type": "mrkdwn",
                     "text": "testyaml was updated by ${{ github.event.pusher.name }} with <${{ github.event.head_commit.url }}/|this commit>. Diff is below"
-                  },
-                  "attachments": [
-                    {
-                        "text": "${{ steps.get-diff.outputs.diff }}",
-                        "mrkdwn_in": [
-                            "text"
-                        ]
-                    }
-                  ]
+                  }
+                },
+              ],
+              "attachments": [
+                {
+                    "text": "${{ steps.get-diff.outputs.diff }}",
+                    "mrkdwn_in": [
+                        "text"
+                    ]
                 }
               ]
             }
