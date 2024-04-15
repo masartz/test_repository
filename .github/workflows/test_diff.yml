@@ -50,7 +50,7 @@ jobs:
               "blocks": [
                 {
                   "author": "${{ github.event.pusher.name }}",
-                  "commit": "${{ github.event.head_commit.url }}",
+                  "commit": "${{ github.event.head_commit.url }}"
                 }
               ]
             }
