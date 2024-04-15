@@ -46,7 +46,7 @@ jobs:
         # For posting a rich message using Block Kit
           payload: |
             {
-              "text": "testyaml was updated by ${{ github.event.pusher.name }}.\n Diff is ${{ steps.get-diff.outputs.diff }}"
+              "text": "testyaml was updated by ${{ github.event.pusher.name }}.\n Diff is ${{ steps.get-diff.outputs.diff }}",
               "blocks": [
                 {
                   "author": "${{ github.event.pusher.name }}",
