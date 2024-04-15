@@ -7,7 +7,7 @@ on:
   # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
     branches: [ "master" ]
-    paths: "test.yaml"
+    paths: "*.yaml"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -51,7 +51,7 @@ jobs:
             			"type": "section",
             			"text": {
             				"type": "mrkdwn",
-                    "text": "testyaml was updated by ${{ github.event.pusher.name }} with <${{ github.event.head_commit.url }}/|this commit>. Diff is below\n```${{ steps.get-diff.outputs.diff }}```"
+                    "text": "${{ github.event.head_commit.message }} by ${{ github.event.pusher.name }} with <${{ github.event.head_commit.url }}/|this commit>. Diff is below\n```${{ steps.get-diff.outputs.diff }}```"
             			}
             		}
             	]
