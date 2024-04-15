@@ -33,7 +33,8 @@ jobs:
       
       - name: get-diff
         run: |
-          DIFF=$(git diff -U0 HEAD~ -- | grep '^+' | grep -Ev '^\+\+\+ b/' | sed 's/^+//')
+          # https://qiita.com/P-man_Brown/items/5649d748b9f3bbf22dca + escape double quotation mark
+          DIFF=$(git diff -U0 HEAD~ -- | grep '^+' | grep -Ev '^\+\+\+ b/' | sed 's/^+//' | sed 's/"/\"/')
           echo "diff=$DIFF" >> $GITHUB_OUTPUT
         id: get-diff
 
