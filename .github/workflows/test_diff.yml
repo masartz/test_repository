@@ -46,21 +46,15 @@ jobs:
         # For posting a rich message using Block Kit
           payload: |
             {
-              "attachments": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "testyaml was updated by ${{ github.event.pusher.name }} with <${{ github.event.head_commit.url }}/|this commit>. Diff is below"
-                  }
-                },
-                {
-                    "text": "${{ steps.get-diff.outputs.diff }}",
-                    "mrkdwn_in": [
-                        "text"
-                    ]
-                }
-              ]
+            	"blocks": [
+            		{
+            			"type": "section",
+            			"text": {
+            				"type": "mrkdwn",
+                    "text": "testyaml was updated by ${{ github.event.pusher.name }} with <${{ github.event.head_commit.url }}/|this commit>. Diff is below\n```${{ steps.get-diff.outputs.diff }}```"
+            			}
+            		}
+            	]
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
