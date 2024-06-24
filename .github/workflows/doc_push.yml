@@ -48,6 +48,7 @@ jobs:
       - name: Commit and push changes if needed
         if: steps.git_diff.outputs.changes == 'true'
         run: |
+          git add docs/index.html
           git commit -m "Update index.html"
           git push
         env:
