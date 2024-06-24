@@ -24,7 +24,7 @@ jobs:
       - name: Checkout another repo
         uses: actions/checkout@v4
         with:
-          repository: masartz/test_private
+          repository: masartz/misc
           path: misc_dir
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
