@@ -1,0 +1,44 @@
+name: Run and Push Go Output
+
+on:
+  #   push:
+  #     branches:
+  #       - master
+  workflow_dispatch:
+
+jobs:
+  run-go-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: "^1.21"
+
+      - name: Run Go program
+        run: |
+          go run main.go
+
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+        app_id: ${{ secrets.APP_ID }}
+        private_key: ${{ secrets.PRIVATE_KEY }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+
+      - name: Commit and push changes
+        run: |
+          git commit -m "Update docs/index.html"
+          git push
+        env:
+          # Ensure that the repository secret GITHUB_TOKEN is available
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
