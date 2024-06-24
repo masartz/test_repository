@@ -50,5 +50,3 @@ jobs:
           git add docs/index.html
           git commit -m "Update index.html"
           git push
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
