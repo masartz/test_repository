@@ -28,6 +28,10 @@ jobs:
           path: misc_dir
           token: ${{ steps.generate_token.outputs.token }}
 
+      - name: ls another repo
+        run: |
+          ls misc_dir
+
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
