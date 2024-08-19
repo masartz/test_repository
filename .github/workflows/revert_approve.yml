@@ -32,7 +32,7 @@ jobs:
         run: |
           pr_title=$(echo "${{ steps.fetch_pr.outputs.response }}" | jq -r '.title')
           if [[ "$pr_title" == Revert* ]]; then
-            echo "{is-reverted}={true}" >> $GITHUB_OUTPUT
+            echo "is-reverted=true" >> $GITHUB_OUTPUT
 
       - name: Approve PR
         if: steps.is-reverted.outputs.is-reverted == 'true'
