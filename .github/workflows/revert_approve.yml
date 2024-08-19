@@ -33,7 +33,7 @@ jobs:
         id: is-reverted
         run: |
           title="${{ steps.fetch_pr.outputs.pr_title }}"
-          if [[ "Revert "add test text"" =~ ^Revert ]]; then
+          if [[ $title =~ ^"Revert ]]; then
             echo "true"
             echo "is-reverted=true" >> $GITHUB_OUTPUT
           else
