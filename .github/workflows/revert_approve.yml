@@ -7,6 +7,10 @@ on:
         description: "Pull Request Number"
         required: true
         type: string
+env:
+  ORG: masartz
+  REPOS: test_repository
+
 jobs:
   approve:
     runs-on: ubuntu-latest
@@ -25,7 +29,7 @@ jobs:
           pr_number=${{ github.event.inputs.pr_number }}
           response=$(curl -s -H "Authorization: token ${{ steps.app-token.outputs.token }}" \
                              -H "Accept: application/vnd.github.v3+json" \
-                             https://api.github.com/repos/masartz/test_repository/pulls/$pr_number)
+                             https://api.github.com/repos/${{ env.ORG }}/${{ env.REPOS }}/pulls/$pr_number)
           pr_title=$(echo "$response" | jq -r '.title')
           echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
 
@@ -46,5 +50,5 @@ jobs:
         run: |
           gh pr review --approve "$PR_URL"
         env:
-          PR_URL: "https://github.com/masartz/test_repository/pull/${{github.event.inputs.pr_number}}"
+          PR_URL: "https://github.com/${{ env.ORG }}/${{ env.REPOS }}/pull/${{github.event.inputs.pr_number}}"
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
