@@ -45,5 +45,5 @@ jobs:
         run: |
           gh pr review --approve "$PR_URL"
         env:
-          PR_URL: ${{github.event.inputs.pr_number}}
+          PR_URL: "https://github.com/masartz/test_repository/pull/${{github.event.inputs.pr_number}}"
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
