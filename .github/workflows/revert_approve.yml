@@ -32,8 +32,8 @@ jobs:
       - name: Is PR Reverted
         id: is-reverted
         run: |
-          pr_title="${{ steps.fetch_pr.outputs.pr_title }}"
-          if [[ $pr_title =~ ^Revert ]]; then
+          title="${{ steps.fetch_pr.outputs.pr_title }}"
+          if [[ $title =~ ^Revert ]]; then
             echo "true"
             echo "is-reverted=true" >> $GITHUB_OUTPUT
           else
