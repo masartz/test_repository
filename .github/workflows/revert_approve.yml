@@ -1,0 +1,43 @@
+name: Revert Pull Request Approve
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Pull Request Number"
+        required: true
+        type: string
+jobs:
+  approve:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.REVERT_APPROVE_APP_ID }}
+          private-key: ${{ secrets.REVERT_APPROVE_PRIVATE_KEY }}
+      - name: Fetch Pull Request Metadata
+        id: fetch_pr
+        run: |
+          pr_number=${{ github.event.inputs.pr_number }}
+          response=$(curl -s -H "Authorization: token ${{ steps.app-token.outputs.token }}" \
+                             -H "Accept: application/vnd.github.v3+json" \
+                             https://api.github.com/repos/masartz/test_repository/pulls/$pr_number)
+          echo "$response" | jq '.'
+      - name: Is PR Reverted
+        id: is-reverted
+        run: |
+          pr_title=$(echo "${{ steps.fetch_pr.outputs.response }}" | jq -r '.title')
+          if [[ "$pr_title" == Revert* ]]; then
+            echo "{is-reverted}={true}" >> $GITHUB_OUTPUT
+
+      - name: Approve PR
+        if: steps.is-reverted.outputs.is-reverted == 'true'
+        run: |
+          gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
