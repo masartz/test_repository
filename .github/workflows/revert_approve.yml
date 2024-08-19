@@ -33,7 +33,8 @@ jobs:
         id: is-reverted
         run: |
           title="${{ steps.fetch_pr.outputs.pr_title }}"
-          if [[ `$title` =~ ^Revert ]]; then
+          pattern='^Revert ".*"'
+          if [[ `$title` =~ $pattern ]]; then
             echo "true"
             echo "is-reverted=true" >> $GITHUB_OUTPUT
           else
