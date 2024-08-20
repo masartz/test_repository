@@ -31,7 +31,9 @@ jobs:
                              -H "Accept: application/vnd.github.v3+json" \
                              https://api.github.com/repos/${{ env.ORG }}/${{ env.REPOS }}/pulls/$pr_number)
           pr_title=$(echo "$response" | jq -r '.title')
+          pr_author=$(echo "$response" | jq -r '.user.login')
           echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
+          echo "pr_author=$pr_author" >> $GITHUB_OUTPUT
 
       - name: Is PR Reverted
         id: is-reverted
@@ -44,9 +46,20 @@ jobs:
           else
             echo "false"
           fi
+      - name: Is PR Created by Actor
+        id: is-created-by-actor
+        run: |
+          pr_author='${{ steps.fetch_pr.outputs.pr_author }}'
+          actor='${{ github.actor }}'
+          if [[ $actor == $pr_author ]]; then
+            echo "true"
+            echo "is-created-by-actor=true" >> $GITHUB_OUTPUT
+          else
+            echo "false"
+          fi
 
       - name: Approve PR
-        if: steps.is-reverted.outputs.is-reverted == 'true'
+        if: steps.is-reverted.outputs.is-reverted == 'true' && steps.is-created-by-actor.outputs.is-created-by-actor == 'true'
         run: |
           gh pr review --approve "$PR_URL"
         env:
