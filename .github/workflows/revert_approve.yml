@@ -32,6 +32,8 @@ jobs:
           pr_author=$(echo "$response" | jq -r '.author.name')
           echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
           echo "pr_author=$pr_author" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
 
       - name: Is PR Reverted
         id: is-reverted
