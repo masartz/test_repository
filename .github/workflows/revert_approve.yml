@@ -29,7 +29,7 @@ jobs:
           pr_number=${{ github.event.inputs.pr_number }}
           response=$(gh pr view --json title,author $pr_number)
           pr_title=$(echo "$response" | jq -r '.title')
-          pr_author=$(echo "$response" | jq -r '.author.name')
+          pr_author=$(echo "$response" | jq -r '.author.login')
           echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
           echo "pr_author=$pr_author" >> $GITHUB_OUTPUT
         env:
