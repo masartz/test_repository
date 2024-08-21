@@ -7,13 +7,14 @@ on:
         description: "Pull Request Number"
         required: true
         type: string
+
 env:
-  ORG: masartz
-  REPOS: test_repository
+  GH_REPO: github.repository
 
 jobs:
   approve:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       contents: write
       pull-requests: write
@@ -33,7 +34,6 @@ jobs:
           echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
           echo "pr_author=$pr_author" >> $GITHUB_OUTPUT
         env:
-          GH_REPO: ${{ env.ORG }}/${{ env.REPOS }}
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
 
       - name: Is PR Reverted
@@ -62,7 +62,6 @@ jobs:
       - name: Approve PR
         if: steps.is-reverted.outputs.is-reverted == 'true' && steps.is-created-by-actor.outputs.is-created-by-actor == 'true'
         run: |
-          gh pr review --approve "$PR_URL"
+          gh pr review --approve ${{github.event.inputs.pr_number}}
         env:
-          PR_URL: "https://github.com/${{ env.ORG }}/${{ env.REPOS }}/pull/${{github.event.inputs.pr_number}}"
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
