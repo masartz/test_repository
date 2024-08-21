@@ -27,11 +27,9 @@ jobs:
         id: fetch_pr
         run: |
           pr_number=${{ github.event.inputs.pr_number }}
-          response=$(curl -s -H "Authorization: token ${{ steps.app-token.outputs.token }}" \
-                             -H "Accept: application/vnd.github.v3+json" \
-                             https://api.github.com/repos/${{ env.ORG }}/${{ env.REPOS }}/pulls/$pr_number)
+          response=$(gh pr view --json title,author $pr_number)
           pr_title=$(echo "$response" | jq -r '.title')
-          pr_author=$(echo "$response" | jq -r '.user.login')
+          pr_author=$(echo "$response" | jq -r '.author.name')
           echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
           echo "pr_author=$pr_author" >> $GITHUB_OUTPUT
 
