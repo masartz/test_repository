@@ -9,7 +9,7 @@ on:
         type: string
 
 env:
-  GH_REPO: github.repository
+  GH_REPO: ${{ github.repository }}
 
 jobs:
   approve:
